@@ -1,4 +1,3 @@
-window.PARURE_ADAPTERS = window.PARURE_ADAPTERS || [];
 (() => {
   const HISTORY_KEY = 'parure.history.v1';
   const HISTORY_MAX = 50;
