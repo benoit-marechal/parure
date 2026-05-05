@@ -1,0 +1,7 @@
+{
+  "VAR_1": "https://api.example.com",
+  "VAR_2": "sk_live_abc123",
+  "VAR_3": "localhost",
+  "VAR_4": 5432,
+  "VAR_5": true
+}

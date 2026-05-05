@@ -1,0 +1,18 @@
+{
+  "double_quotes_in_value": "She said \"bonjour\"",
+  "single_quotes": "It's a test",
+  "backslash": "C:\\Users\\test",
+  "forward_slash": "/usr/local/bin",
+  "newline": "Line 1\nLine 2",
+  "tab": "col1\tcol2",
+  "carriage_return": "windows\r\nstyle",
+  "mixed_escapes": "path: \"C:\\foo\\bar\"\nkey=value",
+  "html_like": "<script>alert('xss')</script>",
+  "json_in_string": "{\"nested\": \"json\"}",
+  "regex_pattern": "^.*[a-z]+$|\\d{3,5}",
+  "url_with_query": "https://example.com/path?a=1&b=2#frag",
+  "punctuation": "!@#$%^&*()_+-=[]{}|;:,.<>?/~`",
+  "leading_trailing_space": "   spaces around   ",
+  "only_spaces": "     ",
+  "ampersand_etc": "tom & jerry > #1 < @home"
+}

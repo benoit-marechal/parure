@@ -1,0 +1,18 @@
+{
+  "VAR_1": "She said \"bonjour\"",
+  "VAR_2": "It's a test",
+  "VAR_3": "C:\\Users\\test",
+  "VAR_4": "/usr/local/bin",
+  "VAR_5": "Line 1\nLine 2",
+  "VAR_6": "col1\tcol2",
+  "VAR_7": "windows\r\nstyle",
+  "VAR_8": "path: \"C:\\foo\\bar\"\nkey=value",
+  "VAR_9": "<script>alert('xss')</script>",
+  "VAR_10": "{\"nested\": \"json\"}",
+  "VAR_11": "^.*[a-z]+$|\\d{3,5}",
+  "VAR_12": "https://example.com/path?a=1&b=2#frag",
+  "VAR_13": "!@#$%^&*()_+-=[]{}|;:,.<>?/~`",
+  "VAR_14": "   spaces around   ",
+  "VAR_15": "     ",
+  "VAR_16": "tom & jerry > #1 < @home"
+}

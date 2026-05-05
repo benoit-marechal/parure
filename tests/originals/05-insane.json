@@ -1,0 +1,99 @@
+{
+  "control_chars_0_to_7": "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007",
+  "control_chars_8_to_15": "\b\t\n\u000b\f\r\u000e\u000f",
+  "control_chars_16_to_23": "\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017",
+  "control_chars_24_to_31": "\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f",
+  "delete_char": "",
+  "literal_backslash_u": "\\u00e9 should NOT be interpreted",
+  "actual_unicode_e_acute": "é è à",
+  "musical_clef_literal": "𝄞",
+  "musical_via_surrogate": "𝄞",
+  "math_italic": "𝕏 𝓪 𝔅 𝔇",
+  "egyptian_hieroglyph": "𓂀 𓆎 𓏏",
+  "looks_like_var": "${VAR_99}",
+  "looks_like_var_partial": "prefix ${VAR_3} suffix",
+  "looks_like_var_lowercase": "${var_1}",
+  "literal_dollar_braces": "$ { } ${ }",
+  "${literal_key}": "key contains dollar braces",
+  "key_with_spaces and stuff": "value with spaces",
+  "very_long_string": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "deeply_nested": {
+    "a": {
+      "b": {
+        "c": {
+          "d": {
+            "e": {
+              "f": {
+                "g": {
+                  "h": {
+                    "i": {
+                      "j": "depth 10"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "weird_numbers": {
+    "max_safe_integer": 9007199254740991,
+    "min_safe_integer": -9007199254740991,
+    "tiny_positive": 1e-308,
+    "huge_positive": 1.7976931348623157e+308,
+    "very_precise": 0.1234567890123456
+  },
+  "duplicate_values": [
+    "same",
+    "same",
+    "same",
+    "same"
+  ],
+  "string_only_whitespace": "   \t\n\r   ",
+  "tab_only": "\t",
+  "newline_only": "\n",
+  "empty": "",
+  "url_with_credentials": "https://user:p%40ss@host.com:8080/path?q=1+2&z=%26#frag",
+  "regex_complex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+  "json_inside_json": "{\"nested\":{\"deep\":[\"a\",\"b\",{\"k\":1}]}}",
+  "html_entities": "&amp; &#x27; &lt;b&gt;bold&lt;/b&gt;",
+  "windows_path": "C:\\Program Files\\App\\bin\\file.exe",
+  "unc_path": "\\\\server\\share\\folder\\file.txt",
+  "shebang": "#!/usr/bin/env bash",
+  "yaml_doc_marker": "---\nname: foo\nvalue: bar\n---",
+  "sql_injection_attempt": "'; DROP TABLE users; --",
+  "rtl_text": "العربية עברית",
+  "mixed_directions": "Hello العالم world עולם end",
+  "all_quotes": "\" ' ` « » “” ‘’",
+  "array_of_arrays": [
+    [
+      1,
+      2
+    ],
+    [
+      3,
+      [
+        4,
+        [
+          5,
+          [
+            6,
+            [
+              7
+            ]
+          ]
+        ]
+      ]
+    ],
+    []
+  ],
+  "boolean_string": "true",
+  "number_string": "42",
+  "null_string": "null",
+  "empty_array_in_object": {
+    "items": []
+  },
+  "json_pointer_like": "/foo/bar/0/baz"
+}

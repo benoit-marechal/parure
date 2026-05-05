@@ -1,0 +1,7 @@
+{
+  "api_url": "https://api.example.com",
+  "api_key": "sk_live_abc123",
+  "db_host": "localhost",
+  "db_port": 5432,
+  "debug": true
+}

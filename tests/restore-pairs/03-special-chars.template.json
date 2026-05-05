@@ -1,0 +1,18 @@
+{
+  "double_quotes_in_value": "${VAR_1}",
+  "single_quotes": "${VAR_2}",
+  "backslash": "${VAR_3}",
+  "forward_slash": "${VAR_4}",
+  "newline": "${VAR_5}",
+  "tab": "${VAR_6}",
+  "carriage_return": "${VAR_7}",
+  "mixed_escapes": "${VAR_8}",
+  "html_like": "${VAR_9}",
+  "json_in_string": "${VAR_10}",
+  "regex_pattern": "${VAR_11}",
+  "url_with_query": "${VAR_12}",
+  "punctuation": "${VAR_13}",
+  "leading_trailing_space": "${VAR_14}",
+  "only_spaces": "${VAR_15}",
+  "ampersand_etc": "${VAR_16}"
+}

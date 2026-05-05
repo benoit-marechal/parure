@@ -1,0 +1,49 @@
+{
+  "string": "${VAR_1}",
+  "number_int": "${VAR_2}",
+  "number_float": "${VAR_3}",
+  "number_negative": "${VAR_4}",
+  "number_zero": "${VAR_5}",
+  "number_exp": "${VAR_6}",
+  "boolean_true": "${VAR_7}",
+  "boolean_false": "${VAR_8}",
+  "null_value": "${VAR_9}",
+  "empty_string": "${VAR_10}",
+  "empty_array": [],
+  "empty_object": {},
+  "array_of_primitives": [
+    "${VAR_11}",
+    "${VAR_12}",
+    "${VAR_13}",
+    "${VAR_14}",
+    "${VAR_15}"
+  ],
+  "nested_object": {
+    "level1": {
+      "level2": {
+        "level3": "${VAR_16}"
+      }
+    }
+  },
+  "array_of_objects": [
+    {
+      "id": "${VAR_17}",
+      "name": "${VAR_18}"
+    },
+    {
+      "id": "${VAR_19}",
+      "name": "${VAR_20}"
+    }
+  ],
+  "mixed_array": [
+    "${VAR_21}",
+    "${VAR_22}",
+    {
+      "k": "${VAR_23}"
+    },
+    [
+      "${VAR_24}",
+      "${VAR_25}"
+    ]
+  ]
+}

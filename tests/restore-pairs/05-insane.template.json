@@ -1,0 +1,99 @@
+{
+  "control_chars_0_to_7": "${VAR_1}",
+  "control_chars_8_to_15": "${VAR_2}",
+  "control_chars_16_to_23": "${VAR_3}",
+  "control_chars_24_to_31": "${VAR_4}",
+  "delete_char": "${VAR_5}",
+  "literal_backslash_u": "${VAR_6}",
+  "actual_unicode_e_acute": "${VAR_7}",
+  "musical_clef_literal": "${VAR_8}",
+  "musical_via_surrogate": "${VAR_9}",
+  "math_italic": "${VAR_10}",
+  "egyptian_hieroglyph": "${VAR_11}",
+  "looks_like_var": "${VAR_12}",
+  "looks_like_var_partial": "${VAR_13}",
+  "looks_like_var_lowercase": "${VAR_14}",
+  "literal_dollar_braces": "${VAR_15}",
+  "${literal_key}": "${VAR_16}",
+  "key_with_spaces and stuff": "${VAR_17}",
+  "very_long_string": "${VAR_18}",
+  "deeply_nested": {
+    "a": {
+      "b": {
+        "c": {
+          "d": {
+            "e": {
+              "f": {
+                "g": {
+                  "h": {
+                    "i": {
+                      "j": "${VAR_19}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "weird_numbers": {
+    "max_safe_integer": "${VAR_20}",
+    "min_safe_integer": "${VAR_21}",
+    "tiny_positive": "${VAR_22}",
+    "huge_positive": "${VAR_23}",
+    "very_precise": "${VAR_24}"
+  },
+  "duplicate_values": [
+    "${VAR_25}",
+    "${VAR_26}",
+    "${VAR_27}",
+    "${VAR_28}"
+  ],
+  "string_only_whitespace": "${VAR_29}",
+  "tab_only": "${VAR_30}",
+  "newline_only": "${VAR_31}",
+  "empty": "${VAR_32}",
+  "url_with_credentials": "${VAR_33}",
+  "regex_complex": "${VAR_34}",
+  "json_inside_json": "${VAR_35}",
+  "html_entities": "${VAR_36}",
+  "windows_path": "${VAR_37}",
+  "unc_path": "${VAR_38}",
+  "shebang": "${VAR_39}",
+  "yaml_doc_marker": "${VAR_40}",
+  "sql_injection_attempt": "${VAR_41}",
+  "rtl_text": "${VAR_42}",
+  "mixed_directions": "${VAR_43}",
+  "all_quotes": "${VAR_44}",
+  "array_of_arrays": [
+    [
+      "${VAR_45}",
+      "${VAR_46}"
+    ],
+    [
+      "${VAR_47}",
+      [
+        "${VAR_48}",
+        [
+          "${VAR_49}",
+          [
+            "${VAR_50}",
+            [
+              "${VAR_51}"
+            ]
+          ]
+        ]
+      ]
+    ],
+    []
+  ],
+  "boolean_string": "${VAR_52}",
+  "number_string": "${VAR_53}",
+  "null_string": "${VAR_54}",
+  "empty_array_in_object": {
+    "items": []
+  },
+  "json_pointer_like": "${VAR_55}"
+}

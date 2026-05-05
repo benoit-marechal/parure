@@ -1,0 +1,49 @@
+{
+  "string": "hello",
+  "number_int": 42,
+  "number_float": 3.14159,
+  "number_negative": -100,
+  "number_zero": 0,
+  "number_exp": 1.5e-10,
+  "boolean_true": true,
+  "boolean_false": false,
+  "null_value": null,
+  "empty_string": "",
+  "empty_array": [],
+  "empty_object": {},
+  "array_of_primitives": [
+    "a",
+    1,
+    true,
+    null,
+    ""
+  ],
+  "nested_object": {
+    "level1": {
+      "level2": {
+        "level3": "deep value"
+      }
+    }
+  },
+  "array_of_objects": [
+    {
+      "id": 1,
+      "name": "alice"
+    },
+    {
+      "id": 2,
+      "name": "bob"
+    }
+  ],
+  "mixed_array": [
+    1,
+    "two",
+    {
+      "k": "v"
+    },
+    [
+      true,
+      false
+    ]
+  ]
+}

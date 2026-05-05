@@ -1,0 +1,7 @@
+{
+  "api_url": "${VAR_1}",
+  "api_key": "${VAR_2}",
+  "db_host": "${VAR_3}",
+  "db_port": "${VAR_4}",
+  "debug": "${VAR_5}"
+}

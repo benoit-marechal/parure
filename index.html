@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parure — Anonymise tes fichiers de config</title>
+  <meta name="description" content="Mini-outil client-side pour anonymiser un fichier de config JSON et le restaurer.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-zinc-950 text-zinc-100 antialiased font-sans selection:bg-indigo-500/30">
+  <div class="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(99,102,241,0.15),_transparent_60%)]"></div>
+
+  <button id="history-toggle" class="history-toggle" aria-label="Ouvrir l'historique" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="w-5 h-5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+    </svg>
+    <span class="history-toggle-label">Historique</span>
+    <span id="history-count" class="history-count" hidden>0</span>
+  </button>
+
+  <main class="max-w-3xl mx-auto px-6 py-16 sm:py-24">
+
+    <header class="text-center mb-14 reveal">
+      <img src="assets/parure-icon-large.png" alt="" class="block mx-auto mb-5 h-24 w-auto" />
+      <h1 class="text-5xl sm:text-6xl font-bold tracking-tight bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-transparent">Parure</h1>
+      <p class="mt-3 text-zinc-400 text-base sm:text-lg">Anonymise un fichier de config. Restaure-le avec sa correspondance.</p>
+    </header>
+
+    <div class="flex justify-center mb-10 reveal" style="--delay: 80ms">
+      <div class="inline-flex items-center bg-zinc-900/80 border border-zinc-800 rounded-full p-1 backdrop-blur" role="tablist">
+        <button data-mode="anonymize" class="mode-btn active" role="tab" aria-selected="true">
+          <span class="relative z-10">Anonymiser</span>
+        </button>
+        <button data-mode="restore" class="mode-btn" role="tab" aria-selected="false">
+          <span class="relative z-10">Restaurer</span>
+        </button>
+        <span id="mode-indicator" class="mode-indicator"></span>
+      </div>
+    </div>
+
+    <section data-pane="anonymize" class="pane reveal" style="--delay: 160ms">
+      <div class="dropzone group" data-target="anonymize" tabindex="0" role="button" aria-label="Déposer un fichier JSON à anonymiser">
+        <div class="dropzone-inner">
+          <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+          </svg>
+          <p class="dropzone-title">Glisse un <span class="text-indigo-400 font-semibold">.json</span> ici</p>
+          <p class="dropzone-hint">ou clique pour choisir un fichier</p>
+        </div>
+      </div>
+    </section>
+
+    <section data-pane="restore" class="pane hidden reveal" style="--delay: 160ms">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="dropzone dropzone-sm" data-target="template" tabindex="0" role="button" aria-label="Déposer le fichier templaté">
+          <div class="dropzone-inner">
+            <svg class="dropzone-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+            </svg>
+            <p class="dropzone-title-sm">Fichier templaté</p>
+            <p class="dropzone-meta" data-meta="template">Aucun fichier</p>
+          </div>
+        </div>
+        <div class="dropzone dropzone-sm" data-target="mapping" tabindex="0" role="button" aria-label="Déposer le fichier de correspondance">
+          <div class="dropzone-inner">
+            <svg class="dropzone-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"/>
+            </svg>
+            <p class="dropzone-title-sm">Correspondance</p>
+            <p class="dropzone-meta" data-meta="mapping">Aucun fichier</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="result" class="result hidden mt-10" aria-live="polite"></section>
+
+    <section id="history-inline" class="history-inline hidden mt-16" aria-label="Historique récent">
+      <header class="history-inline-header">
+        <h2 class="history-inline-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="w-5 h-5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+          </svg>
+          Historique récent
+        </h2>
+        <button id="history-inline-more" class="btn-ghost-link" type="button">
+          Voir tout · <span data-total>0</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+          </svg>
+        </button>
+      </header>
+      <div id="history-inline-list" class="history-inline-list"></div>
+    </section>
+
+    <footer class="mt-20 text-center text-xs text-zinc-600">
+      <p>100% client-side · aucun fichier n'est envoyé sur un serveur</p>
+    </footer>
+
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-hidden="true">
+    <span id="toast-msg"></span>
+  </div>
+
+  <div id="history-backdrop" class="history-backdrop" hidden></div>
+  <aside id="history-drawer" class="history-drawer" aria-hidden="true" aria-label="Historique des transformations">
+    <header class="history-header">
+      <div>
+        <h2 class="history-title">Historique</h2>
+        <p class="history-subtitle">Stocké localement, jamais envoyé.</p>
+      </div>
+      <div class="history-actions">
+        <button id="history-clear" class="btn-ghost-sm" type="button" aria-label="Vider l'historique">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="w-4 h-4" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+          </svg>
+        </button>
+        <button id="history-close" class="btn-ghost-sm" type="button" aria-label="Fermer l'historique">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="w-4 h-4" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+    <div id="history-list" class="history-list">
+      <p class="history-empty" id="history-empty">Aucune transformation pour l'instant.</p>
+    </div>
+  </aside>
+
+  <template id="history-entry-template">
+    <article class="history-entry" tabindex="0" role="button">
+      <div class="history-entry-head">
+        <span class="history-entry-mode" data-mode></span>
+        <time class="history-entry-time" data-time></time>
+      </div>
+      <p class="history-entry-name" data-name></p>
+      <p class="history-entry-meta" data-meta></p>
+    </article>
+  </template>
+
+  <template id="result-card-template">
+    <article class="card">
+      <header class="card-header">
+        <div>
+          <h3 class="card-title" data-title></h3>
+          <p class="card-filename" data-filename></p>
+        </div>
+        <span class="badge" data-badge></span>
+      </header>
+      <pre class="card-preview" data-preview></pre>
+      <div class="card-actions">
+        <button class="btn-primary" data-action="download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          Télécharger
+        </button>
+        <button class="btn-ghost" data-action="copy" aria-label="Copier le contenu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 icon-copy" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 icon-check" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+        </button>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
