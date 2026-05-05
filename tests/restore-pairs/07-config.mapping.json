@@ -1,0 +1,15 @@
+{
+  "VAR_1": "Mon application",
+  "VAR_2": "1.0.0",
+  "VAR_3": "https://api.example.com",
+  "VAR_4": "sk_live_abc123",
+  "VAR_5": 30,
+  "VAR_6": "localhost",
+  "VAR_7": 5432,
+  "VAR_8": "admin",
+  "VAR_9": "p@ssw0rd!",
+  "VAR_10": "alpha",
+  "VAR_11": "10.0.0.1",
+  "VAR_12": "beta",
+  "VAR_13": "10.0.0.2"
+}

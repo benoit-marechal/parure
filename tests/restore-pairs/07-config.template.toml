@@ -1,0 +1,23 @@
+title = "${VAR_1}"
+version = "${VAR_2}"
+
+[api]
+url = "${VAR_3}"
+key = "${VAR_4}"
+timeout = "${VAR_5}"
+
+[db]
+host = "${VAR_6}"
+port = "${VAR_7}"
+
+[db.credentials]
+user = "${VAR_8}"
+password = "${VAR_9}"
+
+[[servers]]
+name = "${VAR_10}"
+ip = "${VAR_11}"
+
+[[servers]]
+name = "${VAR_12}"
+ip = "${VAR_13}"

@@ -1,0 +1,15 @@
+api:
+  url: "${VAR_1}"
+  key: "${VAR_2}"
+  timeout: "${VAR_3}"
+db:
+  host: "${VAR_4}"
+  port: "${VAR_5}"
+  credentials:
+    user: "${VAR_6}"
+    password: "${VAR_7}"
+features:
+  - "${VAR_8}"
+  - "${VAR_9}"
+  - "${VAR_10}"
+debug: "${VAR_11}"

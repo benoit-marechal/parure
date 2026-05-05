@@ -1,0 +1,15 @@
+api:
+  url: "https://api.example.com"
+  key: "sk_live_abc123"
+  timeout: 30
+db:
+  host: localhost
+  port: 5432
+  credentials:
+    user: admin
+    password: "p@ssw0rd!"
+features:
+  - feature_a
+  - feature_b
+  - feature_c
+debug: true

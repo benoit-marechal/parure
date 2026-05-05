@@ -1,0 +1,13 @@
+{
+  "VAR_1": "https://api.example.com",
+  "VAR_2": "sk_live_abc123",
+  "VAR_3": 30,
+  "VAR_4": "localhost",
+  "VAR_5": 5432,
+  "VAR_6": "admin",
+  "VAR_7": "p@ssw0rd!",
+  "VAR_8": "feature_a",
+  "VAR_9": "feature_b",
+  "VAR_10": "feature_c",
+  "VAR_11": true
+}

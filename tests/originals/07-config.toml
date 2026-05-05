@@ -1,0 +1,23 @@
+title = "Mon application"
+version = "1.0.0"
+
+[api]
+url = "https://api.example.com"
+key = "sk_live_abc123"
+timeout = 30
+
+[db]
+host = "localhost"
+port = 5432
+
+[db.credentials]
+user = "admin"
+password = "p@ssw0rd!"
+
+[[servers]]
+name = "alpha"
+ip = "10.0.0.1"
+
+[[servers]]
+name = "beta"
+ip = "10.0.0.2"

@@ -60,8 +60,8 @@
           <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
           </svg>
-          <p class="dropzone-title">Glisse un <span class="text-indigo-400 font-semibold">.json</span> ici</p>
-          <p class="dropzone-hint">ou clique pour choisir un fichier</p>
+          <p class="dropzone-title">Glisse un <span class="text-indigo-400 font-semibold">fichier de config</span> ici</p>
+          <p class="dropzone-hint">JSON · YAML · TOML · .env · .properties</p>
         </div>
       </div>
     </section>
@@ -178,6 +178,17 @@
     </article>
   </template>
 
+  <!-- LOT 2 : libs CDN multi-format -->
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@iarna/toml@2.2.5/toml.js"></script>
+  <!-- LOT 2 : adaptateurs Parure (sniff d'abord car référencé par index) -->
+  <script src="adapters/sniff.js"></script>
+  <script src="adapters/json.js"></script>
+  <script src="adapters/yaml.js"></script>
+  <script src="adapters/toml.js"></script>
+  <script src="adapters/env.js"></script>
+  <script src="adapters/properties.js"></script>
+  <script src="adapters/index.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

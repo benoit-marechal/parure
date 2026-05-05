@@ -1,3 +1,4 @@
+window.PARURE_ADAPTERS = window.PARURE_ADAPTERS || [];
 (() => {
   const HISTORY_KEY = 'parure.history.v1';
   const HISTORY_MAX = 50;
@@ -123,7 +124,12 @@
   function openFilePicker(dz) {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = '.json,application/json,text/plain';
+    const target = dz.dataset.target;
+    if (target === 'mapping') {
+      input.accept = '.json,application/json';
+    } else {
+      input.accept = '.json,.yaml,.yml,.toml,.env,.properties,application/json,text/plain,text/yaml';
+    }
     input.addEventListener('change', async () => {
       const file = input.files[0];
       if (file) await handleFile(dz, file);
@@ -134,15 +140,38 @@
   async function handleFile(dz, file) {
     const text = await file.text();
     const target = dz.dataset.target;
-    const parsed = tryParseJSON(text);
-    if (!parsed.ok) {
-      showToast(`Fichier non-JSON : ${parsed.error}`, 'error');
+
+    if (target === 'mapping') {
+      const parsed = tryParseJSON(text);
+      if (!parsed.ok) {
+        showToast(`Mapping non-JSON : ${parsed.error}`, 'error');
+        return;
+      }
+      state.files.mapping = { tree: parsed.value, text, name: file.name, adapter: null };
+      markDropzoneFile(dz, file.name);
+      tryRestore();
       return;
     }
+
+    const detection = window.detectAdapter(file.name, text);
+    if (detection.error) {
+      showToast(detection.error, 'error');
+      return;
+    }
+    let parsed;
+    try {
+      parsed = detection.adapter.parse(text);
+    } catch (err) {
+      showToast(`Erreur ${detection.adapter.name.toUpperCase()} : ${err.message}`, 'error');
+      return;
+    }
+    if (detection.source === 'sniff') {
+      showToast(`Format détecté : ${detection.adapter.name.toUpperCase()}`, 'success');
+    }
     if (target === 'anonymize') {
-      runAnonymize(parsed.value, text, file.name);
-    } else if (target === 'template' || target === 'mapping') {
-      state.files[target] = { parsed: parsed.value, text, name: file.name };
+      runAnonymize(parsed.tree, parsed.meta, text, file.name, detection.adapter);
+    } else if (target === 'template') {
+      state.files.template = { tree: parsed.tree, meta: parsed.meta, text, name: file.name, adapter: detection.adapter };
       markDropzoneFile(dz, file.name);
       tryRestore();
     }
@@ -170,18 +199,26 @@
 
   // ---------- Anonymize / Restore logic ----------
 
-  function runAnonymize(parsed, originalText, filename) {
+  function runAnonymize(tree, meta, originalText, filename, adapter) {
     const mapping = {};
     const counter = { n: 1 };
-    const templated = anonymize(parsed, mapping, counter);
-    const indent = detectIndent(originalText);
+    const templated = anonymize(tree, mapping, counter);
     const baseName = stripExt(filename) || 'config';
+    const ext = adapter.extensions[0];
+
+    let templatedText;
+    try {
+      templatedText = adapter.serialize(templated, meta);
+    } catch (err) {
+      showToast(`Erreur sérialisation ${adapter.name.toUpperCase()} : ${err.message}`, 'error');
+      return;
+    }
 
     const result = {
       mode: 'anonymize',
-      source: { filename: filename || 'config.json', content: originalText },
-      template: { filename: `${baseName}.template.json`, content: JSON.stringify(templated, null, indent) },
-      mapping: { filename: `${baseName}.mapping.json`, content: JSON.stringify(mapping, null, indent) },
+      source: { filename: filename || `config${ext}`, content: originalText },
+      template: { filename: `${baseName}.template${ext}`, content: templatedText },
+      mapping: { filename: `${baseName}.mapping.json`, content: JSON.stringify(mapping, null, 2) },
     };
     showResult(result);
     pushHistory(result);
@@ -203,23 +240,31 @@
   function tryRestore() {
     if (!state.files.template || !state.files.mapping) return;
 
-    const { parsed: tpl, text: tplText, name: tplName } = state.files.template;
-    const { parsed: map, text: mapText, name: mapName } = state.files.mapping;
+    const tplFile = state.files.template;
+    const mapFile = state.files.mapping;
 
-    if (!isPlainObject(map)) {
+    if (!isPlainObject(mapFile.tree)) {
       showToast('La correspondance doit être un objet JSON { "VAR_1": ... }', 'error');
       return;
     }
 
-    const restored = restore(tpl, map);
-    const indent = detectIndent(tplText);
-    const baseName = stripExt(tplName).replace(/\.template$/i, '') || 'config';
+    const restored = restore(tplFile.tree, mapFile.tree);
+    const ext = tplFile.adapter.extensions[0];
+    const baseName = stripExt(tplFile.name).replace(/\.template$/i, '') || 'config';
+
+    let restoredText;
+    try {
+      restoredText = tplFile.adapter.serialize(restored, tplFile.meta);
+    } catch (err) {
+      showToast(`Erreur sérialisation : ${err.message}`, 'error');
+      return;
+    }
 
     const result = {
       mode: 'restore',
-      restored: { filename: `${baseName}.restored.json`, content: JSON.stringify(restored, null, indent) },
-      template: { filename: tplName, content: tplText },
-      mapping: { filename: mapName, content: mapText },
+      restored: { filename: `${baseName}.restored${ext}`, content: restoredText },
+      template: { filename: tplFile.name, content: tplFile.text },
+      mapping: { filename: mapFile.name, content: mapFile.text },
     };
     showResult(result);
     pushHistory(result);
@@ -494,16 +539,7 @@
   }
 
   function stripExt(name) {
-    return name.replace(/\.json$/i, '');
-  }
-
-  function detectIndent(text) {
-    const lines = text.split('\n');
-    for (let i = 1; i < lines.length; i++) {
-      const m = lines[i].match(/^([ \t]+)\S/);
-      if (m) return m[1];
-    }
-    return 2;
+    return name.replace(/\.(json|ya?ml|toml|env|properties)$/i, '');
   }
 
   function downloadFile(filename, content) {
