@@ -11,25 +11,49 @@ Mettre en ligne **ce soir** une mini-SPA gratuite (GitHub Pages) qui :
 
 Interaction : **glissé-déposé** uniquement. Pas de formulaire, pas de login.
 
-## LOT 1 (en cours)
+## LOT 1 — DONE (2026-05-05)
+
+**Livré en prod** : https://benoit-marechal.github.io/parure/ · repo : https://github.com/benoit-marechal/parure
 
 | Axe     | Cible                                                                 |
 |---------|-----------------------------------------------------------------------|
-| DÉLAI   | **2026-05-05 fin de soirée** (mise en prod ce soir)                   |
-| COÛT    | 0 € d'hébergement (GitHub Pages) · ~3 h de dev max                    |
+| DÉLAI   | 2026-05-05 fin de soirée — **respecté**                               |
+| COÛT    | 0 € d'hébergement (GitHub Pages) · ~3 h de dev — **respecté**         |
 | QUALITÉ | Min vendable : drag & drop fonctionnel sur **JSON uniquement**, Chrome desktop, 100 % client-side. UI minimaliste mais soignée (Tailwind CDN, animations CSS ciblées). Pas de tests auto. |
 
-**Definition of Done LOT 1** (binaire, vérifiable) :
+**DoD LOT 1 (atteinte)** :
 
-- [ ] L'app est accessible via une URL publique GitHub Pages (`https://<user>.github.io/parure` ou équivalent).
-- [ ] Je dépose un fichier **JSON** → je récupère 2 fichiers téléchargeables (templaté + correspondance).
-- [ ] Je dépose les 2 fichiers (templaté + correspondance) → je récupère le fichier d'origine, **byte-à-byte identique** sur un round-trip simple, y compris avec valeurs contenant guillemets, backslashes, caractères Unicode.
-- [ ] Si l'utilisateur dépose un fichier non-JSON, message d'erreur clair (pas de plantage silencieux).
-- [ ] Aucune dépendance serveur, aucun build step, vanilla JS + Tailwind CDN.
-- [ ] Historique localStorage : chaque transformation (Original, Templaté, Correspondance, ou Restauré) est stockée avec timestamp, et 1 clic sur une entrée la recharge dans la zone résultat.
-- [ ] Auto-scroll vers la zone résultat dès qu'une transformation est produite.
+- [x] App accessible via URL publique GitHub Pages.
+- [x] Drop JSON → 2 fichiers téléchargeables (templaté + correspondance).
+- [x] Drop des 2 fichiers → fichier d'origine, byte-à-byte identique sur round-trip simple (guillemets, backslashes, Unicode).
+- [x] Drop d'un non-JSON → message d'erreur clair, pas de plantage.
+- [x] Aucune dépendance serveur, aucun build step, vanilla JS + Tailwind CDN.
+- [x] Historique localStorage avec timestamp + reload sur clic.
+- [x] Auto-scroll vers la zone résultat après transformation.
 
-**Limite assumée** : le round-trip est byte-à-byte identique uniquement si le fichier d'entrée a un formatting uniforme (indent cohérent, pas de mix compact/multi-ligne). Sinon, la sortie est sémantiquement identique mais reformatée en pretty-print uniforme — dérivation de `JSON.stringify` natif, attendue.
+**Limite assumée** : round-trip byte-à-byte identique uniquement si le fichier d'entrée a un formatting uniforme (indent cohérent, pas de mix compact/multi-ligne). Sinon, sortie sémantiquement identique mais reformatée en pretty-print uniforme — dérivation de `JSON.stringify` natif, attendue.
+
+## LOT 2 (en cours) — Multi-format
+
+Support YAML, TOML, `.env`, `.properties` (en plus du JSON déjà géré).
+
+| Axe     | Cible                                                                 |
+|---------|-----------------------------------------------------------------------|
+| DÉLAI   | **2026-05-06 fin de journée**                                         |
+| COÛT    | ~5 h de dev max · 0 € (tout CDN, pas de npm)                          |
+| QUALITÉ | Hybride : **byte-à-byte** pour `.env` / `.properties` (formats plats), **sémantique** pour YAML / TOML (formats structurés). Pas de tests auto. |
+
+**Definition of Done LOT 2** (binaire, vérifiable) :
+
+- [ ] Drop d'un `.yaml`, `.toml`, `.env`, `.properties` valide → 2 fichiers téléchargeables (templaté dans format d'origine + mapping JSON).
+- [ ] Round-trip sémantique sur les 4 nouveaux formats (re-parse de l'original et du restauré → même structure JS).
+- [ ] Round-trip **byte-à-byte** sur `.env` et `.properties` simples (commentaires, blanks, ordre des clés préservés).
+- [ ] Drop d'un fichier sans extension ou avec extension non reconnue → sniffing tenté ; succès affiche `"Format détecté : X"` ; échec affiche erreur claire.
+- [ ] Drop d'une feature non supportée (YAML multi-doc, .env multilignes, .properties continuation) → erreur explicite.
+- [ ] Aucun build step ajouté. Aucune dépendance npm. Tout charge depuis CDN ou implémenté maison.
+- [ ] 1 fichier représentatif par format dans `tests/originals/` + paires correspondantes dans `tests/restore-pairs/`.
+
+**Spec détaillée** : `docs/superpowers/specs/2026-05-05-lot2-multi-format-design.md`
 
 ## Stack & décisions arrêtées (LOT 1)
 
@@ -39,10 +63,9 @@ Interaction : **glissé-déposé** uniquement. Pas de formulaire, pas de login.
 - **Fichier de correspondance** : JSON `{ "VAR_1": "valeur_originale", … }`.
 - **Échappement** : délégué à `JSON.parse` / `JSON.stringify` natifs (pas de regex maison).
 
-## Backlog — NE PAS exécuter pendant LOT 1
+## Backlog — NE PAS exécuter pendant LOT 2
 
-- **LOT 2** : support YAML, .env, .properties, .toml.
-- **LOT 3** : déduplication (deux occurrences de la même valeur → même variable).
+- **LOT 3** : features non supportées en LOT 2 (YAML multi-doc, `.env` multilignes, `.properties` line continuation), préservation byte-à-byte des commentaires YAML/TOML, déduplication (deux occurrences même valeur → même variable).
 - **LOT 4** : option "exclure certaines clés / valeurs" via une regex.
 - **LOT 5** : polish UI (CSS soigné, mode sombre, animations drop zone).
 - **LOT 6** : tests unitaires + CI GitHub Actions.
