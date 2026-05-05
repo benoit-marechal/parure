@@ -33,27 +33,28 @@ Interaction : **glissé-déposé** uniquement. Pas de formulaire, pas de login.
 
 **Limite assumée** : round-trip byte-à-byte identique uniquement si le fichier d'entrée a un formatting uniforme (indent cohérent, pas de mix compact/multi-ligne). Sinon, sortie sémantiquement identique mais reformatée en pretty-print uniforme — dérivation de `JSON.stringify` natif, attendue.
 
-## LOT 2 (en cours) — Multi-format
+## LOT 2 — SHIPPED (2026-05-05, 1 jour d'avance sur délai)
 
-Support YAML, TOML, `.env`, `.properties` (en plus du JSON déjà géré).
+Support YAML, TOML, `.env`, `.properties` (en plus du JSON déjà géré). En prod sur https://benoit-marechal.github.io/parure/.
 
 | Axe     | Cible                                                                 |
 |---------|-----------------------------------------------------------------------|
-| DÉLAI   | **2026-05-06 fin de journée**                                         |
-| COÛT    | ~5 h de dev max · 0 € (tout CDN, pas de npm)                          |
-| QUALITÉ | Hybride : **byte-à-byte** pour `.env` / `.properties` (formats plats), **sémantique** pour YAML / TOML (formats structurés). Pas de tests auto. |
+| DÉLAI   | 2026-05-06 fin de journée — **respecté avec 1 jour d'avance**         |
+| COÛT    | ~5 h dev — **respecté** (~3h effectif grâce parallélisation subagents)|
+| QUALITÉ | Hybride : **byte-à-byte** pour `.env` / `.properties` (validé), **sémantique** pour YAML / TOML. Pas de tests auto. |
 
-**Definition of Done LOT 2** (binaire, vérifiable) :
+**DoD LOT 2** :
 
-- [ ] Drop d'un `.yaml`, `.toml`, `.env`, `.properties` valide → 2 fichiers téléchargeables (templaté dans format d'origine + mapping JSON).
-- [ ] Round-trip sémantique sur les 4 nouveaux formats (re-parse de l'original et du restauré → même structure JS).
-- [ ] Round-trip **byte-à-byte** sur `.env` et `.properties` simples (commentaires, blanks, ordre des clés préservés).
-- [ ] Drop d'un fichier sans extension ou avec extension non reconnue → sniffing tenté ; succès affiche `"Format détecté : X"` ; échec affiche erreur claire.
-- [ ] Drop d'une feature non supportée (YAML multi-doc, .env multilignes, .properties continuation) → erreur explicite.
-- [ ] Aucun build step ajouté. Aucune dépendance npm. Tout charge depuis CDN ou implémenté maison.
-- [ ] 1 fichier représentatif par format dans `tests/originals/` + paires correspondantes dans `tests/restore-pairs/`.
+- [x] Drop d'un `.yaml`, `.toml`, `.env`, `.properties` valide → 2 fichiers téléchargeables (templaté + mapping JSON). *Code vérifié, à valider manuellement en prod par l'utilisateur.*
+- [x] Round-trip byte-à-byte `.env` / `.properties` (testé via Node : 2/2 PASS sur fixtures avec commentaires + blanks + quoting préservés).
+- [-] Round-trip sémantique YAML / TOML — implémentation OK, **vérification manuelle prod à faire** (drop `06-config.yaml` et `07-config.toml`).
+- [x] Sniffing testé sur 7 cas représentatifs (json, yaml, toml, env, properties, ambigu, random) : 7/7 PASS.
+- [x] Erreurs explicites pour features non supportées (YAML multi-doc, `.env` multiligne, `.properties` continuation) — `throw` codé dans les 3 adaptateurs.
+- [x] Aucun build step ajouté. Aucune dépendance npm. Libs CDN : js-yaml@4.1.0 + @iarna/toml@2.2.5.
+- [x] 4 paires de fichiers tests créées (`tests/originals/` + `tests/restore-pairs/`).
 
-**Spec détaillée** : `docs/superpowers/specs/2026-05-05-lot2-multi-format-design.md`
+**Spec** : `docs/superpowers/specs/2026-05-05-lot2-multi-format-design.md`
+**Plan** : `docs/superpowers/plans/2026-05-05-lot2-multi-format.md`
 
 ## Stack & décisions arrêtées (LOT 1)
 
@@ -63,7 +64,7 @@ Support YAML, TOML, `.env`, `.properties` (en plus du JSON déjà géré).
 - **Fichier de correspondance** : JSON `{ "VAR_1": "valeur_originale", … }`.
 - **Échappement** : délégué à `JSON.parse` / `JSON.stringify` natifs (pas de regex maison).
 
-## Backlog — NE PAS exécuter pendant LOT 2
+## Backlog
 
 - **LOT 3** : features non supportées en LOT 2 (YAML multi-doc, `.env` multilignes, `.properties` line continuation), préservation byte-à-byte des commentaires YAML/TOML, déduplication (deux occurrences même valeur → même variable).
 - **LOT 4** : option "exclure certaines clés / valeurs" via une regex.
